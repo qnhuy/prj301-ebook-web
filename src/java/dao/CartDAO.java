@@ -67,6 +67,26 @@ public class CartDAO {
         }
         return null;
     }
+    
+    
+    public Cart getCartById(int cartId) throws SQLException {
+        String sql = "SELECT * FROM Cart WHERE cart_id = ?";
+
+        try (Connection conn = DatabaseUtil.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, cartId);
+            ResultSet rs = ps.executeQuery();
+            
+            if (rs.next()) {
+                return new Cart(
+                        rs.getInt("cart_id"),
+                        rs.getInt("user_id"),
+                        bookDAO.getBookById(rs.getInt("book_id")),
+                        rs.getInt("quantity")
+                );
+            }
+        }
+        return null;
+    }
 
 // Cập nhật số lượng sản phẩm trong giỏ hàng
     public boolean updateCart(Cart cart) throws SQLException {

@@ -28,8 +28,13 @@
 
             h1 {
                 text-align: center;
-                color: #2c3e50;
-                font-size: 2rem;
+                font-size: 26px;
+                line-height: normal;
+                margin-bottom: 20px;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                opacity: 0.9;
+                background-image: linear-gradient(to right, #e317ae, #ff266d, #ff7525, #f1b600, #a8eb12);
             }
 
             .cart-item {
@@ -106,7 +111,10 @@
                 text-align: right;
                 margin-top: 20px;
                 font-size: 1.5rem;
-                color: #2c3e50;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                opacity: 0.9;
+                background-image: linear-gradient(to right, #e81a19, #cd7600, #a3a900, #6fce63, #12ebbe);
             }
 
             .checkout-btn {
@@ -146,6 +154,16 @@
             #cartTable {
                 width: 100%;
                 border-collapse: collapse;
+                background: #f9f9f9;
+                border-radius: 8px;
+                overflow: hidden;
+
+                th {
+                    background: #007bff;
+                    color: white;
+                    font-weight: bold;
+                }
+
                 td {
                     padding: 10px;
                 }
@@ -156,6 +174,11 @@
                 }
             }
 
+            #cartTable tr.cart-item:hover {
+                background: rgba(0, 123, 255, 0.1);
+                transition: background 0.3s ease-in-out;
+            }
+
             #cartTable th, #cartTable td {
                 text-align: center;
                 padding: 10px;
@@ -163,6 +186,9 @@
                 overflow: hidden; /* Ẩn nội dung tràn */
                 text-overflow: ellipsis; /* Hiển thị dấu "..." nếu nội dung quá dài */
                 white-space: nowrap; /* Không cho phép xuống dòng */
+                padding: 12px 16px;
+                border-bottom: 1px solid #ddd;
+                text-align: center;
             }
 
             #cartTable td.item-info {
@@ -299,7 +325,7 @@
                                         </td>
                                         <td class="item-info">
                                             <div class="item-title">${cart.book.title}</div>
-                                            <div class="item-price"><fmt:formatNumber value="${cart.book.price}" type="number" groupingUsed="true"/> VND</div>
+                                            <div class="item-price"><fmt:formatNumber value="${cart.book.price}" type="number" groupingUsed="true"/> VNĐ</div>
                                         </td>
                                         <td>
                                             <form class="item-quantity" action="cart" method="POST">
@@ -330,7 +356,7 @@
                             </table>
 
                             <div class="cart-bottom">
-                                <div class="cart-total">Total: <span id="sub-total">0</span> VND</div>
+                                <div class="cart-total">Total: <span id="sub-total">0</span> VNĐ</div>
                                 <button class="checkout-btn">Proceed to Checkout</button>
                             </div>
 
@@ -435,20 +461,32 @@
                         return $(this).data("id");
                     }).get();
 
+                    let totalPrice = $("#sub-total").text().replaceAll('.', '');
 
                     if (type === "off") {
                         $.ajax({
                             type: "POST",
-                            url: "/checkout",
-                            data: {selectedIds: selectedIds},
+                            url: "/bookstore/checkout",
+                            contentType: "application/json",
+                            data: JSON.stringify({
+                                selectedIds: selectedIds,
+                                paymentInfo: {
+                                    totalPrice: totalPrice,
+                                    fullname: fullname,
+                                    phone: phone,
+                                    address: address,
+                                    email: email
+                                }
+                            }),
                             success: function (response) {
-                                console.log("123123")
+                                if (response === "true") {
+                                    window.location.href = "/bookstore/orders";
+                                }
                             }
                         });
                     } else if (type === "online") {
                         alert("Bạn chọn: Thanh toán online.");
                     }
-
 
                 }
 
