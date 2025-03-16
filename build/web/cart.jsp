@@ -6,6 +6,7 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -17,12 +18,12 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
         <style>
             .cart-container {
-                max-width: 800px;
                 margin: auto;
                 background: #ffffff;
                 box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
                 border-radius: 16px;
                 padding: 20px;
+                margin-bottom: 50px;
             }
 
             h1 {
@@ -32,10 +33,6 @@
             }
 
             .cart-item {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                padding: 15px 0;
                 border-bottom: 1px solid #ddd;
             }
 
@@ -114,7 +111,6 @@
 
             .checkout-btn {
                 display: block;
-                width: 100%;
                 text-align: center;
                 background: #3498db;
                 color: white;
@@ -124,6 +120,7 @@
                 margin-top: 20px;
                 text-decoration: none;
                 transition: background 0.3s;
+                border: 0;
             }
 
             .checkout-btn:hover {
@@ -134,6 +131,56 @@
                 text-align: center;
                 font-size: 1.2rem;
             }
+
+            .cart-bottom {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 10px;
+                position: sticky;
+                bottom: 0;
+                background: white;
+                padding: 10px;
+            }
+
+            #cartTable {
+                width: 100%;
+                border-collapse: collapse;
+                td {
+                    padding: 10px;
+                }
+
+                img {
+                    max-width: 80px;
+                    height: auto;
+                }
+            }
+
+            #cartTable th, #cartTable td {
+                text-align: center;
+                padding: 10px;
+                vertical-align: middle;
+                overflow: hidden; /* Ẩn nội dung tràn */
+                text-overflow: ellipsis; /* Hiển thị dấu "..." nếu nội dung quá dài */
+                white-space: nowrap; /* Không cho phép xuống dòng */
+            }
+
+            #cartTable td.item-info {
+                max-width: 200px; /* Giới hạn độ rộng của cột tên sản phẩm */
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            #cartTable td.item-price {
+                width: 100px; /* Giới hạn độ rộng của giá */
+            }
+
+            #cartTable td img {
+                max-width: 80px;
+                height: auto;
+            }
+
 
         </style>
     </head>
@@ -233,38 +280,92 @@
 
                         <!-- Hiển thị giỏ hàng -->
                         <c:if test="${not empty cartList}">
-                            <c:forEach var="cart" items="${cartList}">
-                                <div class="cart-item">
-                                    <img src="https://via.placeholder.com/80" alt="${cart.book.title}">
-                                    <div class="item-info">
-                                        <div class="item-title">${cart.book.title}</div>
-                                        <div class="item-price">${cart.book.price} VND</div>
-                                    </div>
-                                    <form class="item-quantity" action="cart" method="POST">
-                                        <input type="hidden" name="cartId" value="${cart.cartId}">
-                                        <input type="hidden" name="bookId" value="${cart.book.bookId}">
-                                        <input type="hidden" name="userId" value="${sessionScope.user.id}">
-                                        <input type="hidden" name="action" value="updateQuantityInCart">
+                            <table id="cartTable" style="width: 100%">
+                                <tr class="cart-item">
+                                    <th><input type="checkbox" id="select-all"></th>
+                                    <th>Image</th>
+                                    <th>Product</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    <th>Action</th>
+                                </tr>
+                                <c:forEach var="cart" items="${cartList}">
+                                    <tr data-id="${cart.cartId}" class="cart-item">
+                                        <td>
+                                            <input type="checkbox" class="cart-checkbox" data-id="${cart.cartId}">
+                                        </td>
+                                        <td>
+                                            <img src="https://via.placeholder.com/80" alt="${cart.book.title}">
+                                        </td>
+                                        <td class="item-info">
+                                            <div class="item-title">${cart.book.title}</div>
+                                            <div class="item-price"><fmt:formatNumber value="${cart.book.price}" type="number" groupingUsed="true"/> VND</div>
+                                        </td>
+                                        <td>
+                                            <form class="item-quantity" action="cart" method="POST">
+                                                <input type="hidden" name="cartId" value="${cart.cartId}">
+                                                <input type="hidden" name="bookId" value="${cart.book.bookId}">
+                                                <input type="hidden" name="userId" value="${sessionScope.user.id}">
+                                                <input type="hidden" name="action" value="updateQuantityInCart">
 
-                                        <button type="submit" name="quantity" value="${cart.quantity - 1}" ${cart.quantity == 1 ? 'disabled' : ''}>-</button>
+                                                <button type="submit" name="quantity" value="${cart.quantity - 1}" ${cart.quantity == 1 ? 'disabled' : ''}>-</button>
 
-                                        <div class="form-control text-center" style="max-width: 150px" >${cart.quantity}</div>
+                                                <div class="form-control text-center" style="max-width: 150px" >${cart.quantity}</div>
 
-                                        <button type="submit" name="quantity" value="${cart.quantity + 1}" ${cart.quantity == cart.book.stockQuantity ? 'disabled' : ''}>+</button>
-                                    </form>
-                                    <form action="cart" method="POST">
-                                        <input type="hidden" name="cartId" value="${cart.cartId}">
-                                        <input type="hidden" name="action" value="removeFromCart">
-                                        <button type="submit" class="remove-btn">Remove</button>
-                                    </form>
+                                                <button type="submit" name="quantity" value="${cart.quantity + 1}" ${cart.quantity == cart.book.stockQuantity ? 'disabled' : ''}>+</button>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <div class="item-price"><span id="sub-price"><fmt:formatNumber value="${cart.book.price * cart.quantity}" type="number" groupingUsed="true"/></span> VNĐ</div>
+                                        </td>
+                                        <td>
+                                            <form action="cart" method="POST">
+                                                <input type="hidden" name="cartId" value="${cart.cartId}">
+                                                <input type="hidden" name="action" value="removeFromCart">
+                                                <button type="submit" class="remove-btn">Remove</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                            </table>
+
+                            <div class="cart-bottom">
+                                <div class="cart-total">Total: <span id="sub-total">0</span> VND</div>
+                                <button class="checkout-btn">Proceed to Checkout</button>
+                            </div>
+
+                            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+                                <div class="offcanvas-header">
+                                    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Checkout infomation</h5>
+                                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                                 </div>
-                            </c:forEach>
+                                <div class="offcanvas-body">
+                                    <div class="d-flex align-items-center" style="flex-direction: column; height: 100%">
+                                        <div class="mb-2" style="width: 100%">
+                                            <label class="form-label">Fullname <span class="text-danger">(*)</span></label>
+                                            <input type="text" class="form-control" id="fullname" placeholder="Nhập họ và tên" required>
+                                        </div>
+                                        <div class="mb-2" style="width: 100%">
+                                            <label class="form-label">Phone number <span class="text-danger">(*)</span></label>
+                                            <input type="tel" class="form-control" id="phone" placeholder="Nhập số điện thoại" required>
+                                        </div>
+                                        <div class="mb-2" style="width: 100%">
+                                            <label class="form-label">Address <span class="text-danger">(*)</span></label>
+                                            <input type="text" class="form-control" id="address" placeholder="Nhập địa chỉ" required>
+                                        </div>
+                                        <div class="mb-2" style="width: 100%">
+                                            <label class="form-label">Email <span class="text-danger">(*)</span></label>
+                                            <input type="email" class="form-control" id="email" placeholder="Nhập email" required>
+                                        </div>
 
-                            <div class="cart-total">Total: ${totalPrice} VND</div>
-
-                            <a href="checkout.jsp" class="checkout-btn">Proceed to Checkout</a>
-                        </c:if>
-                    </div>
+                                        <div class="d-grid gap-2" style="margin-top: auto; width: 100%">
+                                            <button id="pay-offline" value="cod" class="btn btn-primary">Cash on Delivery</button>
+                                            <button id="pay-online" value="online" class="btn btn-danger">Online payment</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </c:if>
+                        </div>
                 </main>
             </div>
         </div>
@@ -279,11 +380,11 @@
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script> 
 
-        <c:if test="${not empty sessionScope.addToCartMess}">
+        <c:if test="${not empty sessionScope.cartMessage}">
             <div id="toast">
-                ${sessionScope.addToCartMess}
+                ${sessionScope.cartMessage}
             </div> 
-            <c:remove var="addToCartMess" scope="session"/>
+            <c:remove var="cartMessage" scope="session"/>
 
             <script type="text/javascript">
                 showToast();
@@ -301,6 +402,93 @@
                 }
             </script> 
         </c:if>
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+
+                $(".checkout-btn").on("click", function () {
+                    let selectedIds = $(".cart-checkbox:checked").map(function () {
+                        return $(this).data("id");
+                    }).get();
+
+                    if (selectedIds.length === 0) {
+                        alert("Vui lòng chọn ít nhất một sản phẩm trước khi thanh toán!");
+
+                    } else {
+                        var offcanvas = new bootstrap.Offcanvas(document.getElementById('offcanvasExample'));
+                        offcanvas.show();
+                    }
+                });
+
+                function handleCheckout(type) {
+                    let fullname = document.getElementById("fullname").value.trim();
+                    let phone = document.getElementById("phone").value.trim();
+                    let address = document.getElementById("address").value.trim();
+                    let email = document.getElementById("email").value.trim();
+
+                    if (!fullname || !phone || !address || !email) {
+                        alert("Vui lòng điền đầy đủ thông tin!");
+                        return false;
+                    }
+
+                    let selectedIds = $(".cart-checkbox:checked").map(function () {
+                        return $(this).data("id");
+                    }).get();
+
+
+                    if (type === "off") {
+                        $.ajax({
+                            type: "POST",
+                            url: "/checkout",
+                            data: {selectedIds: selectedIds},
+                            success: function (response) {
+                                console.log("123123")
+                            }
+                        });
+                    } else if (type === "online") {
+                        alert("Bạn chọn: Thanh toán online.");
+                    }
+
+
+                }
+
+                $("#pay-offline").on("click", () => handleCheckout("off"));
+                $("#pay-online").on("click", () => handleCheckout("online"));
+
+                function updateTotal() {
+                    let total = 0;
+                    $(".cart-checkbox:checked").each(function () {
+                        let row = $(this).closest("tr");
+                        let subtotal = parseFloat(row.find("#sub-price").text().replace(/,/g, ''));
+                        total += subtotal;
+                    });
+                    $("#sub-total").text(total.toLocaleString('vi-VN'));
+                }
+
+                // select all
+                $("#select-all").on("change", function () {
+                    $(".cart-checkbox").prop("checked", $(this).prop("checked"));
+                    updateTotal();
+                });
+
+                // Khi một checkbox trong danh sách thay đổi
+                $(".cart-checkbox").on("change", function () {
+                    if ($(".cart-checkbox:not(#select-all):checked").length === $(".cart-checkbox:not(#select-all)").length) {
+                        $("#select-all").prop("checked", true);
+                    } else {
+                        $("#select-all").prop("checked", false);
+                    }
+
+                    let selectedIds = $(".cart-checkbox:checked").map(function () {
+                        return $(this).data("id");
+                    }).get();
+
+                    updateTotal();
+                });
+
+            });
+
+        </script>
     </body>
 </html>
 

@@ -1,3 +1,5 @@
+package controller;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
@@ -75,16 +77,8 @@ public class CartServlet extends HttpServlet {
 //        }
             List<Cart> cartList = cartDAO.getAllCartByUserId(1); // user.getId()
 
-            // Tính tổng giá trị giỏ hàng
-            BigDecimal totalPrice = cartList.stream()
-                    .map(cart -> cart.getBook().getPrice().multiply(BigDecimal.valueOf(cart.getQuantity())))
-                    .reduce(BigDecimal.ZERO, BigDecimal::add);
-
-            // Gửi dữ liệu đến JSP
             request.setAttribute("cartList", cartList);
-            request.setAttribute("totalPrice", totalPrice);
 
-            // Chuyển hướng đến cart.jsp
             RequestDispatcher dispatcher = request.getRequestDispatcher("cart.jsp");
             dispatcher.forward(request, response);
 

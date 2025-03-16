@@ -184,7 +184,7 @@ footer {
     padding: 15px 40px;
     right: 55px;
     background: rgba(13,110,253, var(--bs-bg-opacity)) !important;
-    color: black;
+    color: white;
     text-align: center;
     z-index: 99999;
     font-size: 18px;
