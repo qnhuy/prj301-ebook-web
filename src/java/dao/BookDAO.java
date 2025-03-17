@@ -12,8 +12,8 @@ public class BookDAO {
     // Lấy sách nổi bật (dựa trên stock_quantity, ví dụ: còn hàng nhiều nhất)
     public List<Book> getFeaturedBooks(int limit) {
         List<Book> books = new ArrayList<>();
-        String sql = "SELECT TOP 5\n"
-                + "b.book_id, b.title, b.author_id, b.category_id, b.publisher_id, b.price, b.stock_quantity, b.description, b.cover_id, c.cover_path, b.status, b.published_date\n"
+        String sql = "SELECT TOP 5 \n"
+                + "b.book_id, b.title, b.author_id, b.category_id, b.publisher_id, b.price, b.stock_quantity, b.description, b.cover_id, c.cover_path, b.status, b.published_date \n"
                 + "FROM Books b \n"
                 + "JOIN CoverImages c on b.cover_id = c.cover_id ";
         try (Connection conn = DatabaseUtil.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
