@@ -111,7 +111,7 @@
                         <c:forEach var="book" items="${featuredBooks}">
                             <div class="col">
                                 <div class="card book-card h-100 shadow-sm border-0">
-                                    <img src="${book.coverImage}" class="card-img-top" alt="${book.title}" style="height: 200px; object-fit: cover;">
+                                    <img src="${pageContext.request.contextPath}/coverimg/${book.coverPath}" class="card-img-top" alt="${book.title}" style="height: 200px; object-fit: cover;">
                                     <div class="card-body text-center">
                                         <h5 class="card-title">${book.title}</h5>
                                         <p class="card-text text-danger fw-bold">Giá: ${book.price} VNĐ</p>
