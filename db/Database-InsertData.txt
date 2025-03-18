@@ -1,0 +1,58 @@
+﻿use BookStore;
+-- Thêm Admin
+INSERT INTO Users (username, email, password_hash, role)
+VALUES 
+(N'Huong', N'huong@gmail.com', N'123', N'admin');
+
+-- Thêm 4 Customers
+INSERT INTO Users (username, email, password_hash, role)
+VALUES 
+(N'MinhThu', N'minhthu@gmail.com', N'456', N'customer'),
+(N'VanHuy', N'vanhuy@gmail.com', N'789', N'customer'),
+(N'HuyNguyen', N'huynguyen@gmail.com', N'890', N'customer'),
+(N'TheMinh', N'theminh@gmail.com', N'012', N'customer');
+
+-- Thêm tác giả
+INSERT INTO Authors (name, bio)
+VALUES 
+(N'Đặng Hoàng Giang', N'Nhà văn và nhà nghiên cứu nổi tiếng về tâm lý và xã hội'),
+(N'Robin Sharma', N'Tác giả sách phát triển bản thân nổi tiếng'),
+(N'Ryan Holiday', N'Chuyên gia về triết lý Stoic'),
+(N'Marcus Aurelius', N'Hoàng đế La Mã và triết gia Stoic'),
+(N'Eckhart Tolle', N'Nhà văn về tâm linh và triết học cuộc sống');
+
+-- Thêm nhà xuất bản
+INSERT INTO Publishers (name, address)
+VALUES 
+(N'Nhà Xuất Bản Trẻ', N'12 Nguyễn Thị Minh Khai, TP.HCM'),
+(N'NXB Kim Đồng', N'55 Quang Trung, Hà Nội'),
+(N'NXB Thế Giới', N'45 Lý Thường Kiệt, Hà Nội');
+
+-- Thêm thể loại sách
+INSERT INTO Categories (category_name)
+VALUES 
+(N'Triết lý sống');
+
+-- Thêm 15 cuốn sách về triết lý sống
+INSERT INTO Books (title, author_id, category_id, publisher_id, price, stock_quantity, description, cover_image, status, published_date)
+VALUES 
+(N'Đọc vị bất kỳ ai', 1, 1, 1, 120000, 50, N'Cách thấu hiểu con người qua ngôn ngữ cơ thể', NULL, N'Available', '2023-05-10'),
+(N'Bí mật của may mắn', 2, 1, 2, 95000, 40, N'Câu chuyện về cách tạo ra may mắn trong cuộc sống', NULL, N'Available', '2022-07-15'),
+(N'Nhà giả kim', 2, 1, 1, 150000, 35, N'Tiểu thuyết huyền thoại về hành trình khám phá bản thân', NULL, N'Available', '1995-10-20'),
+(N'Đời ngắn đừng ngủ dài', 2, 1, 3, 130000, 30, N'Bài học ý nghĩa về cách sống trọn vẹn', NULL, N'Available', '2018-03-12'),
+(N'Tư duy như một nhà sư', 3, 1, 2, 170000, 25, N'Bài học từ triết lý nhà sư giúp con người sống an nhiên', NULL, N'Available', '2021-01-05'),
+(N'Chủ nghĩa khắc kỷ', 3, 1, 1, 180000, 20, N'Ứng dụng triết lý Stoic vào đời sống', NULL, N'Available', '2020-11-18'),
+(N'Suy tưởng', 4, 1, 3, 200000, 15, N'Ghi chép triết lý cuộc sống của Marcus Aurelius', NULL, N'Available', '2016-06-30'),
+(N'Sức mạnh của hiện tại', 5, 1, 1, 160000, 18, N'Cuốn sách giúp con người trân trọng khoảnh khắc hiện tại', NULL, N'Available', '2014-08-25'),
+(N'Thức tỉnh mục đích sống', 5, 1, 2, 140000, 22, N'Giúp bạn tìm ra mục đích thật sự của cuộc đời', NULL, N'Available', '2010-05-14'),
+(N'Nghệ thuật sống hạnh phúc', 1, 1, 3, 190000, 20, N'Học cách sống hạnh phúc từ những triết lý cổ xưa', NULL, N'Available', '2015-09-10'),
+(N'Phi lý trí', 2, 1, 1, 125000, 28, N'Những hiểu biết mới về tâm lý và hành vi con người', NULL, N'Available', '2012-04-22'),
+(N'Dám bị ghét', 3, 1, 2, 155000, 32, N'Triết lý Nhật Bản về sự tự do và hạnh phúc', NULL, N'Available', '2019-07-08'),
+(N'Bạn đắt giá bao nhiêu?', 2, 1, 3, 110000, 38, N'Cách nâng cao giá trị bản thân trong cuộc sống', NULL, N'Available', '2021-12-01'),
+(N'Sống đơn giản cho mình thanh thản', 4, 1, 1, 135000, 27, N'Hướng dẫn về lối sống tối giản', NULL, N'Available', '2017-03-19'),
+(N'Trên đường băng', 1, 1, 2, 145000, 25, N'Bài học cuộc sống dành cho người trẻ', NULL, N'Available', '2016-09-27');
+
+-- Kiểm tra dữ liệu đã thêm
+SELECT * FROM Users;
+SELECT * FROM Books;
+
