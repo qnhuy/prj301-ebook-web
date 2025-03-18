@@ -33,7 +33,11 @@
             </div>
             <button type="submit" class="btn btn-warning w-100">Change Password</button>
         </form>
+<<<<<<< HEAD
         <p class="mt-3 text-center"><a href="home.jsp">Back to Home</a></p>
+=======
+        <p class="mt-3 text-center"><a href="customer-home.jsp">Back to Home</a></p>
+>>>>>>> c9e900d0c36f013d0207467e8440dc15170dfdab
     </div>
 </body>
 </html>
