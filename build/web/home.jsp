@@ -128,14 +128,7 @@
                         <c:forEach var="book" items="${featuredBooks}">
                             <div class="col">
                                 <div class="card book-card h-100 shadow-sm border-0">
-<<<<<<< HEAD
                                     <img src="${pageContext.request.contextPath}/coverimg/${book.coverPath}" class="card-img-top" alt="${book.title}" style="height: 200px; object-fit: cover;">
-                                    <div class="card-body text-center">
-                                        <h5 class="card-title">${book.title}</h5>
-                                        <p class="card-text text-danger fw-bold">Giá: ${book.price} VNĐ</p>
-                                        <a href="bookdetail?id=${book.bookId}" class="btn btn-success">Chi tiết</a>
-=======
-                                    <img src="${book.coverImage}" class="card-img-top" alt="${book.title}" style="height: 200px; object-fit: cover;">
                                     <div class="card-body text-center d-flex flex-column gap-2">
                                         <h5 class="card-title mb-2">${book.title}</h5>
                                         <p class="card-text text-danger fw-bold mb-1">Giá: ${book.price} VNĐ</p>
@@ -155,7 +148,6 @@
                                         </c:if>
 
                                         <a href="bookdetail?id=${book.bookId}" class="btn btn-success">Details</a>
->>>>>>> main
                                     </div>
                                 </div>
                             </div>

@@ -12,17 +12,11 @@ public class BookDAO {
     // Lấy sách nổi bật (dựa trên stock_quantity, ví dụ: còn hàng nhiều nhất)
     public List<Book> getFeaturedBooks(int limit) {
         List<Book> books = new ArrayList<>();
-<<<<<<< HEAD
         String sql = "SELECT TOP 5 \n"
                 + "b.book_id, b.title, b.author_id, b.category_id, b.publisher_id, b.price, b.stock_quantity, b.description, b.cover_id, c.cover_path, b.status, b.published_date \n"
                 + "FROM Books b \n"
                 + "JOIN CoverImages c on b.cover_id = c.cover_id ";
         try (Connection conn = DatabaseUtil.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
-=======
-        String sql = "SELECT TOP (?) * FROM Books WHERE status = 'Available' ORDER BY stock_quantity DESC";
-        try (Connection conn = DatabaseUtil.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, limit);
->>>>>>> main
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 books.add(mapResultSetToBook(rs));
@@ -162,17 +156,12 @@ public class BookDAO {
                 rs.getBigDecimal("price"),
                 rs.getInt("stock_quantity"),
                 rs.getString("description"),
-<<<<<<< HEAD
                 rs.getInt("cover_id"),
                 rs.getString("cover_path"),
-=======
-                rs.getString("cover_image"),
->>>>>>> main
                 rs.getString("status"),
                 rs.getDate("published_date")
         );
     }
-<<<<<<< HEAD
 
     public static void main(String[] args) {
         BookDAO bd = new BookDAO();
@@ -180,6 +169,4 @@ public class BookDAO {
         System.out.println(bList);
 
     }
-=======
->>>>>>> main
 }
