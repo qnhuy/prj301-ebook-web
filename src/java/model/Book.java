@@ -13,16 +13,17 @@ public class Book {
     private BigDecimal price;
     private int stockQuantity;
     private String description;
-    private String coverImage;
+    private int coverId;
     private String status;
     private Date publishedDate;
+    private String coverPath;
 
     public Book() {
     }
 
     public Book(int bookId, String title, int authorId, int categoryId, int publisherId,
-            BigDecimal price, int stockQuantity, String description, String coverImage,
-            String status, Date publishedDate) {
+            BigDecimal price, int stockQuantity, String description, int coverId,
+            String coverPath, String status, Date publishedDate) {
         this.bookId = bookId;
         this.title = title;
         this.authorId = authorId;
@@ -31,9 +32,18 @@ public class Book {
         this.price = price;
         this.stockQuantity = stockQuantity;
         this.description = description;
-        this.coverImage = coverImage;
+        this.coverId = coverId;
+        this.coverPath = coverPath;
         this.status = status;
         this.publishedDate = publishedDate;
+    }
+
+    public String getCoverPath() {
+        return coverPath;
+    }
+
+    public void setCoverPath(String coverPath) {
+        this.coverPath = coverPath;
     }
 
     // Getter và Setter
@@ -101,12 +111,12 @@ public class Book {
         this.description = description;
     }
 
-    public String getCoverImage() {
-        return coverImage;
+    public int getCoverId() {
+        return coverId;
     }
 
-    public void setCoverImage(String coverImage) {
-        this.coverImage = coverImage;
+    public void setCoverId(int coverImage) {
+        this.coverId = coverId;
     }
 
     public String getStatus() {
