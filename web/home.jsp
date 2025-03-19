@@ -31,7 +31,24 @@
                     <button class="btn btn-outline-light" type="submit">Tìm</button>
                 </form>
                 <div class="ms-3">
-                    <i class="fas fa-user-circle text-white fs-3"></i>
+                    <c:choose>
+                        <c:when test="${empty sessionScope.user}">
+                            <!-- Hiển thị nút Login nếu chưa đăng nhập -->
+                            <a href="login.jsp" class="btn btn-outline-light">Login</a>
+                        </c:when>
+                        <c:otherwise>
+                            <!-- Hiển thị tên người dùng nếu đã đăng nhập -->
+                            <div class="dropdown">
+                                <button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                    <i class="fas fa-user-circle"></i> ${sessionScope.user.username}
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="profile">Profile</a></li>
+                                    <li><a class="dropdown-item" href="logout">Logout</a></li>
+                                </ul>
+                            </div>
+                        </c:otherwise>
+                    </c:choose>
                 </div>
             </div>
         </nav>
@@ -44,7 +61,7 @@
                     <div class="position-sticky pt-3">
                         <ul class="nav flex-column">
                             <!-- Mục cho người dùng chung -->
-                            <li class="nav-item">
+                            <li class="nav-item active">
                                 <a class="nav-link text-dark" href="home">
                                     <i class="fas fa-home me-2"></i> Home
                                 </a>
@@ -112,10 +129,25 @@
                             <div class="col">
                                 <div class="card book-card h-100 shadow-sm border-0">
                                     <img src="${pageContext.request.contextPath}/coverimg/${book.coverPath}" class="card-img-top" alt="${book.title}" style="height: 200px; object-fit: cover;">
-                                    <div class="card-body text-center">
-                                        <h5 class="card-title">${book.title}</h5>
-                                        <p class="card-text text-danger fw-bold">Giá: ${book.price} VNĐ</p>
-                                        <a href="bookdetail?id=${book.bookId}" class="btn btn-success">Chi tiết</a>
+                                    <div class="card-body text-center d-flex flex-column gap-2">
+                                        <h5 class="card-title mb-2">${book.title}</h5>
+                                        <p class="card-text text-danger fw-bold mb-1">Giá: ${book.price} VNĐ</p>
+
+
+                                        <c:if test="${book.stockQuantity > 1}">
+                                            <!-- change false to sessionScope.user == null-->
+                                            <form action="${false ? 'login' : 'cart'}" method="POST" class="d-flex flex-column flex-lg-row justify-content-center align-items-center gap-2 mt-2 mb-2">
+                                                <input type="hidden" name="bookId" value="${book.bookId}">
+                                                <input type="hidden" name="userId" value="${sessionScope.user.id}">
+                                                <input type="hidden" name="action" value="addToCart">
+
+                                                <input name="quantity" type="number" class="form-control text-center" style="max-width: 150px" value="1" max="${book.stockQuantity}" min="1">
+
+                                                <button type="submit" style="white-space: nowrap" class="btn btn-primary">Add to cart</button>
+                                            </form>
+                                        </c:if>
+
+                                        <a href="bookdetail?id=${book.bookId}" class="btn btn-success">Details</a>
                                     </div>
                                 </div>
                             </div>
@@ -129,10 +161,25 @@
                             <div class="col">
                                 <div class="card book-card h-100 shadow-sm border-0">
                                     <img src="${book.coverImage}" class="card-img-top" alt="${book.title}" style="height: 200px; object-fit: cover;">
-                                    <div class="card-body text-center">
-                                        <h5 class="card-title">${book.title}</h5>
-                                        <p class="card-text text-danger fw-bold">Giá: ${book.price} VNĐ</p>
-                                        <a href="bookdetail?id=${book.bookId}" class="btn btn-success">Chi tiết</a>
+                                    <div class="card-body text-center d-flex flex-column gap-2">
+                                        <h5 class="card-title mb-2">${book.title}</h5>
+                                        <p class="card-text text-danger fw-bold mb-1">Giá: ${book.price} VNĐ</p>
+
+
+                                        <c:if test="${book.stockQuantity > 1}">
+                                            <!-- change false to sessionScope.user == null-->
+                                            <form action="${false ? 'login' : 'cart'}" method="POST" class="d-flex flex-column flex-lg-row justify-content-center align-items-center gap-2 mt-2 mb-2">
+                                                <input type="hidden" name="bookId" value="${book.bookId}">
+                                                <input type="hidden" name="userId" value="${sessionScope.user.id}">
+                                                <input type="hidden" name="action" value="addToCart">
+
+                                                <input name="quantity" type="number" class="form-control text-center" style="max-width: 150px" value="1" max="${book.stockQuantity}" min="1">
+
+                                                <button type="submit" style="white-space: nowrap" class="btn btn-primary">Add to cart</button>
+                                            </form>
+                                        </c:if>
+
+                                        <a href="bookdetail?id=${book.bookId}" class="btn btn-success">Details</a>
                                     </div>
                                 </div>
                             </div>
@@ -146,10 +193,25 @@
                             <div class="col">
                                 <div class="card book-card h-100 shadow-sm border-0">
                                     <img src="${book.coverImage}" class="card-img-top" alt="${book.title}" style="height: 200px; object-fit: cover;">
-                                    <div class="card-body text-center">
-                                        <h5 class="card-title">${book.title}</h5>
-                                        <p class="card-text text-danger fw-bold">Giá: ${book.price} VNĐ</p>
-                                        <a href="bookdetail?id=${book.bookId}" class="btn btn-success">Chi tiết</a>
+                                    <div class="card-body text-center d-flex flex-column gap-2">
+                                        <h5 class="card-title mb-2">${book.title}</h5>
+                                        <p class="card-text text-danger fw-bold mb-1">Giá: ${book.price} VNĐ</p>
+
+
+                                        <c:if test="${book.stockQuantity > 1}">
+                                            <!-- change false to sessionScope.user == null-->
+                                            <form action="${false ? 'login' : 'cart'}" method="POST" class="d-flex flex-column flex-lg-row justify-content-center align-items-center gap-2 mt-2 mb-2">
+                                                <input type="hidden" name="bookId" value="${book.bookId}">
+                                                <input type="hidden" name="userId" value="${sessionScope.user.id}">
+                                                <input type="hidden" name="action" value="addToCart">
+                                                
+                                                <input name="quantity" type="number" class="form-control text-center" style="max-width: 150px" value="1" max="${book.stockQuantity}" min="1">
+
+                                                <button type="submit" style="white-space: nowrap" class="btn btn-primary">Add to cart</button>
+                                            </form>
+                                        </c:if>
+
+                                        <a href="bookdetail?id=${book.bookId}" class="btn btn-success">Details</a>
                                     </div>
                                 </div>
                             </div>
