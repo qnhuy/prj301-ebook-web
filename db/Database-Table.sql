@@ -50,7 +50,7 @@ CREATE TABLE Books (
     price DECIMAL(10,2) NOT NULL,
     stock_quantity INT NOT NULL,
     description NVARCHAR(MAX),
-    cover_id int,
+    cover_path nvarchar(max),
     status NVARCHAR(50) DEFAULT 'Available' CHECK (status IN ('Available', 'OutOfStock', 'Discontinued')),
     published_date DATE, 
     FOREIGN KEY (author_id) REFERENCES Authors(author_id) ON DELETE CASCADE,
@@ -58,8 +58,8 @@ CREATE TABLE Books (
     FOREIGN KEY (publisher_id) REFERENCES Publishers(publisher_id) ON DELETE CASCADE,
     FOREIGN KEY (cover_id) REFERENCES CoverImages(cover_id) ON DELETE CASCADE
 );
-select * from Books
 drop table Books
+select * from Books
 
 -- Bảng Orders: Lưu thông tin đơn hàng
 CREATE TABLE Orders (
@@ -102,9 +102,15 @@ CREATE TABLE Payments (
     payment_method NVARCHAR(50) NOT NULL CHECK (payment_method IN ('VNPAY', 'MOMO', 'Cash')),
     status NVARCHAR(50) DEFAULT 'Pending',
     payment_date DATETIME DEFAULT GETDATE(),
+	fullname nvarchar(50),
+	phone varchar(20),
+	address nvarchar(50),
+	email nvarchar(50);
     FOREIGN KEY (order_id) REFERENCES Orders(order_id) ON DELETE CASCADE
 );
+--add fullname, phone, address, email
 drop table Payments
+select * from Payments
 
 -- Bảng Reviews: Lưu đánh giá sách
 CREATE TABLE Reviews (
@@ -175,14 +181,18 @@ values
 	(05, N'Tư duy như một nhà sư', 'tu-duy-nhu-mot-nha-su.jpg');
 
 select * from CoverImages
+drop table CoverImages
+
 
 -- Thêm 15 cuốn sách về triết lý sống
-INSERT INTO Books (title, author_id, category_id, publisher_id, price, stock_quantity, description, cover_id, status, published_date)
+INSERT INTO Books (title, author_id, category_id, publisher_id, price, stock_quantity, description, cover_path, status, published_date)
 VALUES  
-(N'Đọc vị bất kỳ ai', 1, 1, 1, 120000, 50, N'Cách thấu hiểu con người qua ngôn ngữ cơ thể', 01, N'Available', '2023-05-10'),
-(N'Bí mật của may mắn', 2, 1, 2, 95000, 40, N'Câu chuyện về cách tạo ra may mắn trong cuộc sống', 02, N'Available', '2022-07-15'),
-(N'Nhà giả kim', 2, 1, 1, 150000, 35, N'Tiểu thuyết huyền thoại về hành trình khám phá bản thân', 03, N'Available', '1995-10-20'),
-(N'Đời ngắn đừng ngủ dài', 2, 1, 3, 130000, 30, N'Bài học ý nghĩa về cách sống trọn vẹn', 04, N'Available', '2018-03-12'),
-(N'Tư duy như một nhà sư', 3, 2, 2, 170000, 25, N'Bài học từ triết lý nhà sư giúp con người sống an nhiên', 05, N'Available', '2021-01-05');
+(N'Đọc vị bất kỳ ai', 1, 1, 1, 120000, 50, N'Cách thấu hiểu con người qua ngôn ngữ cơ thể', N'doc-vi-bat-ky-ai.jpg', N'Available', '2023-05-10'),
+(N'Bí mật của may mắn', 2, 1, 2, 95000, 40, N'Câu chuyện về cách tạo ra may mắn trong cuộc sống', N'bi-mat-cua-may-man.jpg', N'Available', '2022-07-15'),
+(N'Nhà giả kim', 2, 1, 1, 150000, 35, N'Tiểu thuyết huyền thoại về hành trình khám phá bản thân', N'nha-gia-kim.jpg', N'Available', '1995-10-20'),
+(N'Đời ngắn đừng ngủ dài', 2, 1, 3, 130000, 30, N'Bài học ý nghĩa về cách sống trọn vẹn', N'doi-ngan-dung-ngu-dai.jpg', N'Available', '2018-03-12'),
+(N'Tư duy như một nhà sư', 3, 2, 2, 170000, 25, N'Bài học từ triết lý nhà sư giúp con người sống an nhiên', N'tu-duy-nhu-mot-nha-su.jpg', N'Available', '2021-01-05');
 
 select * from Books
+
+insert into Books(title, )

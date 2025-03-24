@@ -13,6 +13,7 @@
         <!-- Font Awesome for icons -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     </head>
+    
     <body class="d-flex flex-column min-vh-100 bg-light">
         <!-- Header -->
         <nav class="navbar navbar-expand-lg navbar-light bg-primary shadow-sm">

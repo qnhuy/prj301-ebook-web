@@ -13,16 +13,15 @@ public class Book {
     private BigDecimal price;
     private int stockQuantity;
     private String description;
-    private int coverId;
+    private String coverPath;
     private String status;
     private Date publishedDate;
-    private String coverPath;
 
     public Book() {
     }
 
     public Book(int bookId, String title, int authorId, int categoryId, int publisherId,
-            BigDecimal price, int stockQuantity, String description, int coverId,
+            BigDecimal price, int stockQuantity, String description,
             String coverPath, String status, Date publishedDate) {
         this.bookId = bookId;
         this.title = title;
@@ -32,7 +31,6 @@ public class Book {
         this.price = price;
         this.stockQuantity = stockQuantity;
         this.description = description;
-        this.coverId = coverId;
         this.coverPath = coverPath;
         this.status = status;
         this.publishedDate = publishedDate;
@@ -109,14 +107,6 @@ public class Book {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public int getCoverId() {
-        return coverId;
-    }
-
-    public void setCoverId(int coverImage) {
-        this.coverId = coverId;
     }
 
     public String getStatus() {

@@ -13,9 +13,7 @@ public class BookDAO {
     public List<Book> getFeaturedBooks(int limit) {
         List<Book> books = new ArrayList<>();
         String sql = "SELECT TOP 5 \n"
-                + "b.book_id, b.title, b.author_id, b.category_id, b.publisher_id, b.price, b.stock_quantity, b.description, b.cover_id, c.cover_path, b.status, b.published_date \n"
-                + "FROM Books b \n"
-                + "JOIN CoverImages c on b.cover_id = c.cover_id ";
+                + "b.book_id, b.title, b.author_id, b.category_id, b.publisher_id, b.price, b.stock_quantity, b.description, c.cover_path, b.status, b.published_date";
         try (Connection conn = DatabaseUtil.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
@@ -144,6 +142,10 @@ public class BookDAO {
         }
         return books;
     }
+    
+    public Book addBook(Book book) {
+        String sql = "insert into Books(id, )";
+    }
 
     // Ánh xạ ResultSet sang Book
     private Book mapResultSetToBook(ResultSet rs) throws SQLException {
@@ -156,7 +158,6 @@ public class BookDAO {
                 rs.getBigDecimal("price"),
                 rs.getInt("stock_quantity"),
                 rs.getString("description"),
-                rs.getInt("cover_id"),
                 rs.getString("cover_path"),
                 rs.getString("status"),
                 rs.getDate("published_date")

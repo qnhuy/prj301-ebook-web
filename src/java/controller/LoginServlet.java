@@ -90,7 +90,7 @@ public class LoginServlet extends HttpServlet {
                 response.addCookie(userCookie);
             }
             if ("admin".equals(user.getRole())) {
-                response.sendRedirect("admin-dashboard.jsp");
+                response.sendRedirect("adminhome.jsp");
             } else {
                 response.sendRedirect("home.jsp");
             }
